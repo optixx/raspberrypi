@@ -21,17 +21,8 @@ tar xzvf newlib-1.20.0.tar.gz
 cd newlib-1.20.0
 
 -- now here is my solution
-cd newlib/libc/sys/arm/
-mv syscalls.c syscalls.corig
-touch syscalls.c
-mv libcfunc.c libcfunc.corig
-touch libcfunc.c
-mv crt0.S crt0.Sorig
-touch crt0.S
-cd ../../../../
--- should be back in the newlib-1.20.0 directory
+./configure --target=arm-none-eabi --prefix=/home/david/devel/arch/raspberrypi/devkit    --disable-newlib-supplied-syscalls
 
-./configure --target=arm-none-eabi --prefix=/opt/gnuarm
 make
 make install
 
