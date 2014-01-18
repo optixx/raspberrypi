@@ -5,7 +5,7 @@ COPS = -Wall -O2 -nostartfiles -ffreestanding
 
 LIB = -L /home/david/devel/arch/raspberrypi/devkit/arm-none-eabi/lib -L/usr/lib/gcc/arm-none-eabi/4.8.3/
 
-gcc : uart02.hex uart02.bin
+gcc : uartx01.hex uartx01.bin
 
 all : gcc
 
@@ -22,18 +22,18 @@ clean :
 vectors.o : vectors.s
 	$(ARMGNU)-as vectors.s -o vectors.o
 
-uart02.o : uart02.c
-	$(ARMGNU)-gcc $(COPS) -c uart02.c -o uart02.o
+uartx01.o : uartx01.c
+	$(ARMGNU)-gcc $(COPS) -c uartx01.c -o uartx01.o
 
-uart02.elf : memmap vectors.o uart02.o syscalls.o
-	$(ARMGNU)-ld vectors.o uart02.o syscalls.o -T memmap -o uart02.elf $(LIB) -lc -lgcc
-	$(ARMGNU)-objdump -D uart02.elf > uart02.list
+uartx01.elf : memmap vectors.o uartx01.o syscalls.o
+	$(ARMGNU)-ld vectors.o uartx01.o syscalls.o -T memmap -o uartx01.elf $(LIB) -lc -lgcc
+	$(ARMGNU)-objdump -D uartx01.elf > uartx01.list
 
-uart02.bin : uart02.elf
-	$(ARMGNU)-objcopy uart02.elf -O binary uart02.bin
+uartx01.bin : uartx01.elf
+	$(ARMGNU)-objcopy uartx01.elf -O binary uartx01.bin
 
-uart02.hex : uart02.elf
-	$(ARMGNU)-objcopy uart02.elf -O ihex uart02.hex
+uartx01.hex : uartx01.elf
+	$(ARMGNU)-objcopy uartx01.elf -O ihex uartx01.hex
 
 syscalls.o : syscalls.c
 	$(ARMGNU)-gcc $(COPS) -c $(COPS) syscalls.c -o syscalls.o

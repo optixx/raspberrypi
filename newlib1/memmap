@@ -1,7 +1,7 @@
 
 MEMORY
 {
-    ram : ORIGIN = 0x10000, LENGTH = 0x10000
+    ram : ORIGIN = 0x8000, LENGTH = 0x20000
 }
 
 SECTIONS
@@ -9,3 +9,4 @@ SECTIONS
     .text : { *(.text*) } > ram
     .bss : { *(.bss*) } > ram
 }
+
