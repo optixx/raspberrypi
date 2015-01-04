@@ -1,7 +1,7 @@
 
 ARMGNU ?= arm-none-eabi
 
-COPS = -Wall -O2 -nostdlib -nostartfiles -ffreestanding 
+COPS = -g -Wall -O2 -nostdlib -nostartfiles -ffreestanding 
 
 gcc : bssdata.hex bssdata.bin fun.list
 
@@ -15,13 +15,16 @@ clean :
 	rm -f *.bc
 
 vectors.o : vectors.s
-	$(ARMGNU)-as vectors.s -o vectors.o
+	$(ARMGNU)-as -g vectors.s -o vectors.o
 
 bssdata.o : bssdata.c
 	$(ARMGNU)-gcc $(COPS) -c bssdata.c -o bssdata.o
 
-bssdata.elf : memmap vectors.o bssdata.o 
-	$(ARMGNU)-ld vectors.o bssdata.o -T memmap -o bssdata.elf
+qemu.o : qemu.c
+	$(ARMGNU)-gcc $(COPS) -c qemu.c -o qemu.o
+
+bssdata.elf : memmap vectors.o bssdata.o qemu.o 
+	$(ARMGNU)-ld -g vectors.o qemu.o bssdata.o -T memmap -o bssdata.elf
 	$(ARMGNU)-objdump -D bssdata.elf > bssdata.list
 
 bssdata.bin : bssdata.elf
@@ -37,3 +40,8 @@ fun.list : start.s simple fun.c
 	$(ARMGNU)-ld -T simple start.o fun.o -o fun.elf
 	$(ARMGNU)-objdump -D fun.elf > fun.list
 
+qemu: bssdata.elf  
+	qemu-system-arm -m 128 -kernel bssdata.elf -serial stdio -machine integratorcp -S -s
+
+rungdb:
+	cgdb -d arm-none-eabi-gdb -- --init-command=gdbinit
