@@ -1,9 +1,9 @@
 
 ARMGNU ?= arm-none-eabi
 
-COPS = -Wall -O2 -nostartfiles -ffreestanding
+COPS = -Wall -nostartfiles -ffreestanding -O2 -march=armv6zk -mtune=arm1176jzf-s
 
-LIB = -L /home/david/devel/arch/raspberrypi/devkit/arm-none-eabi/lib -L/usr/lib/gcc/arm-none-eabi/4.8.3/
+LIB = -L/home/david/devel/arch/raspberrypi/devkit/arm-none-eabi/lib -L/home/david/devel/arch/raspberrypi/devkit/lib/gcc/arm-none-eabi/4.8.3 
 
 gcc : uartx01.hex uartx01.bin
 
@@ -38,7 +38,8 @@ uartx01.hex : uartx01.elf
 syscalls.o : syscalls.c
 	$(ARMGNU)-gcc $(COPS) -c $(COPS) syscalls.c -o syscalls.o
 
-
+qemu: uartx01.elf
+	../../../bin/qemu-system-arm -kernel uartx01.elf -cpu arm1176 -m 256 -M raspi -serial stdio  -monitor stdio
 
 
 

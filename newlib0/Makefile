@@ -3,7 +3,7 @@ ARMGNU ?= arm-none-eabi
 
 COPS = -Wall -O2 -nostartfiles -ffreestanding
 
-LIB = -L /home/david/devel/arch/raspberrypi/devkit/arm-none-eabi/lib -L/usr/lib/gcc/arm-none-eabi/4.8.3/
+LIB = -L /home/david/devel/arch/raspberrypi/devkit/arm-none-eabi/lib -L/home/david/devel/arch/raspberrypi/devkit/lib/gcc/arm-none-eabi/4.8.3 
 
 gcc : uart02.hex uart02.bin
 
