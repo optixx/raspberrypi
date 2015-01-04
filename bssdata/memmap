@@ -8,6 +8,7 @@ MEMORY
 SECTIONS
 {
    .text : { *(.text*) } > bob
+   .rodata : { *(.rodata*) } > bob
    __data_rom_start__ = .;
    .data : {
     __data_start__ = .;
